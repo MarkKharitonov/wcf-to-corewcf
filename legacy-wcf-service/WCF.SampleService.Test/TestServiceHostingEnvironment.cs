@@ -7,26 +7,16 @@ using System.ServiceModel.Description;
 
 namespace WCF.SampleService.Test
 {
-    internal class TestServiceHostingEnvironment<T>:IDisposable
+    internal class TestServiceHostingEnvironment<T> : IDisposable
     {
         ServiceHost serviceHost;
 
         public TestServiceHostingEnvironment(string serviceUrl, IServiceBehavior item)
         {
-            try
-            {
-                var uri = new Uri(serviceUrl);
-                serviceHost = new ServiceHost(typeof(T), uri);
-                serviceHost.Description.Behaviors.Add(item);
-                serviceHost.Open();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-            }
+            var uri = new Uri(serviceUrl);
+            serviceHost = new ServiceHost(typeof(T), uri);
+            serviceHost.Description.Behaviors.Add(item);
+            serviceHost.Open();
         }
 
         public void Dispose()

@@ -15,6 +15,7 @@ namespace WCF.SampleService.Test.Behaviors.ErrorBehavior
     public class ErrorBehaviorTests
     {
         #region setup
+
         static TestServiceHostingEnvironment<TestService> hostingEnv;
         static Mock<IFileLogger> fileLogger;
         static string serviceUrl;
@@ -22,10 +23,9 @@ namespace WCF.SampleService.Test.Behaviors.ErrorBehavior
         [TestInitialize]
         public void Initialize()
         {
-            serviceUrl = "http://localhost:9000/TestService.svc";
+            serviceUrl = "http://localhost:40000/TestService.svc";
             fileLogger = new Mock<IFileLogger>();
             hostingEnv = new TestServiceHostingEnvironment<TestService>(serviceUrl, new ErrorBehaviorNS.ErrorBehavior(typeof(GlobalErrorHandler), fileLogger.Object));
-
         }
 
         [TestCleanup]
@@ -34,14 +34,8 @@ namespace WCF.SampleService.Test.Behaviors.ErrorBehavior
             hostingEnv.Dispose();
         }
 
-        static ITestService Channel
-        {
-            get
-            {
-                return hostingEnv.GetChannel<ITestService>(serviceUrl);
+        static ITestService Channel => hostingEnv.GetChannel<ITestService>(serviceUrl);
 
-            }
-        }
         #endregion
 
         #region tests
@@ -49,43 +43,17 @@ namespace WCF.SampleService.Test.Behaviors.ErrorBehavior
         [TestMethod]
         public void SuccessfulCall()
         {
-            // Arrange
-            Exception expectedExcetpion = null;
-
-            // Act
-            try
-            {
-                int result = Channel.Test(2, 1);
-            }
-            catch (Exception ex)
-            {
-                expectedExcetpion = ex;
-            }
-
-            // Assert
-            Assert.IsNull(expectedExcetpion);
+            int result = Channel.Test(2, 1);
+            Assert.AreEqual(2, result);
         }
 
         [TestMethod]
         public void ExceptionIsHandledByErrorBehavior()
         {
-            // Arrange
             fileLogger.Setup(t => t.Log(It.IsAny<string>()));
-                    
-            Exception expectedExcetpion = null;
 
-            // Act
-            try
-            {
-                int result = Channel.Test(2, 0);
-            }
-            catch (Exception ex)
-            {
-                expectedExcetpion = ex;
-            }
+            Assert.ThrowsException<FaultException>(() => Channel.Test(2, 0));
 
-            // Assert
-            Assert.IsNotNull(expectedExcetpion);
             fileLogger.Verify(t => t.Log(It.IsAny<string>()), Times.Once);
         }
         #endregion
