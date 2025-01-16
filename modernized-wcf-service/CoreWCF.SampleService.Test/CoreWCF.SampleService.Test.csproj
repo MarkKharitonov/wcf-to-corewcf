@@ -5,6 +5,7 @@
     <OutputType>Library</OutputType>
     <AppendRuntimeIdentifierToOutputPath>true</AppendRuntimeIdentifierToOutputPath>
     <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
   </PropertyGroup>
 
   <PropertyGroup>

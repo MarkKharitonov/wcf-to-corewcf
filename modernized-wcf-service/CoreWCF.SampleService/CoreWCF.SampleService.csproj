@@ -60,6 +60,7 @@
 		<Configurations>Debug;Release;Debug6;Release6</Configurations>
 		<Platforms>AnyCPU</Platforms>
 		<OutputType>Exe</OutputType>
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Debug6'">
