@@ -1,10 +1,6 @@
 using System;
 using WCF.SampleService.Contracts;
-#if NETFRAMEWORK
-using System.ServiceModel;
-#else
 using CoreWCF;
-#endif
 
 namespace WCF.SampleService.Services
 {

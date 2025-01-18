@@ -1,7 +1,6 @@
 ﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
 
-#if !NETFRAMEWORK
 using System;
 using CoreWCF.Channels;
 using CoreWCF.Description;
@@ -104,4 +103,3 @@ namespace CoreWCF.SampleService.Test
         }
     }
 }
-#endif

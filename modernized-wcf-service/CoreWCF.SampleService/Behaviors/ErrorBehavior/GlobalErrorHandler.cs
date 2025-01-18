@@ -3,13 +3,8 @@
 
 using System;
 using WCF.SampleService.Loggers;
-#if NETFRAMEWORK
-    using System.ServiceModel.Channels;
-    using System.ServiceModel.Dispatcher;
-#else
-    using CoreWCF.Channels;
-    using CoreWCF.Dispatcher;
-#endif
+using CoreWCF.Channels;
+using CoreWCF.Dispatcher;
 
 namespace WCF.SampleService.Behaviors.ErrorBehavior
 {

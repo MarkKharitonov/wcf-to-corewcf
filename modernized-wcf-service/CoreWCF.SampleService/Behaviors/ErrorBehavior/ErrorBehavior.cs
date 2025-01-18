@@ -1,17 +1,10 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
 
-#if NETFRAMEWORK
-    using System.ServiceModel;
-    using System.ServiceModel.Channels;
-    using System.ServiceModel.Description;
-    using System.ServiceModel.Dispatcher;
-#else
-    using CoreWCF;
-    using CoreWCF.Channels;
-    using CoreWCF.Description;
-    using CoreWCF.Dispatcher;
-#endif
+using CoreWCF;
+using CoreWCF.Channels;
+using CoreWCF.Description;
+using CoreWCF.Dispatcher;
 using System;
 using WCF.SampleService.Loggers;
 

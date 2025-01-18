@@ -1,9 +1,7 @@
 ﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
 
-#if !NETFRAMEWORK
 using Moq;
-using System;
 using NUnit.Framework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -68,7 +66,7 @@ namespace WCF.SampleService.Test.Behaviors.ErrorBehavior
         {
             fileLogger.Setup(t => t.Log(It.IsAny<string>()));
 
-            var expectedException = Assert.Throws<FaultException>(() => Channel.Test(2, 1));
+            var expectedException = Assert.Throws<SSM.FaultException>(() => Channel.Test(2, 1));
 
             Assert.IsNotNull(expectedException);
             Assert.AreEqual("ClientId was not found the request.", expectedException.Message);
@@ -97,4 +95,3 @@ namespace WCF.SampleService.Test.Behaviors.ErrorBehavior
 
     }
 }
-#endif

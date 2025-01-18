@@ -3,11 +3,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-#if NETFRAMEWORK
-    using System.ServiceModel;
-#else
-    using CoreWCF;
-#endif
+using CoreWCF;
 
 namespace WCF.SampleService.Contracts
 {
@@ -21,37 +17,13 @@ namespace WCF.SampleService.Contracts
     [DataContract]
     public class LoginInfo
     {
-        string email = "";
-        string password = "";
         [DataMember]
         [Required]
         [EmailAddress]
-        public string Email
-        {
-            get
-            {
-                return email;
-            }
-
-            set
-            {
-                email = value;
-            }
-        }
+        public string Email { get; set; } = "";
 
         [DataMember]
         [Required]
-        public string Password
-        {
-            get
-            {
-                return password;
-            }
-
-            set
-            {
-                password = value;
-            }
-        }
+        public string Password { get; set; } = "";
     }
 }

@@ -1,38 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net48'">
-		<OutputType>Library</OutputType>
-		<AppendRuntimeIdentifierToOutputPath>False</AppendRuntimeIdentifierToOutputPath>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<OutputType>Exe</OutputType>
-		<IsPublishable>True</IsPublishable>
-		<SelfContained>True</SelfContained>
-		<AppendRuntimeIdentifierToOutputPath>True</AppendRuntimeIdentifierToOutputPath>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' != 'net6.0'">
-		<Reference Include="System.Configuration" />
-		<Reference Include="System.ServiceModel" />
-		<Reference Include="System.ServiceModel.Web" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPublishable>True</IsPublishable>
+    <SelfContained>True</SelfContained>
+    <AppendRuntimeIdentifierToOutputPath>True</AppendRuntimeIdentifierToOutputPath>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+  </PropertyGroup>
+
+	<ItemGroup>
 		<PackageReference Include="System.ServiceModel.Primitives" Version="4.10.0" />
 		<PackageReference Include="System.ServiceModel.Http" Version="4.10.0" />
 		<PackageReference Include="System.ServiceModel.Security" Version="4.10.0" />
-		<PackageReference Include="CoreWCF.Http" Version="*" />
-		<PackageReference Include="CoreWCF.Primitives" Version="*" />
-		<PackageReference Include="CoreWCF.WebHttp" Version="*" />
-		<PackageReference Include="CoreWCF.NetTcp" Version="*" />
-		<PackageReference Include="Microsoft.AspNetCore" Version="*" />
-		<PackageReference Include="CoreWCF.ConfigurationManager" Version="*" />
-		<PackageReference Include="System.ServiceModel.Web" Version="*" />
-		<PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="*" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="*" />
+		<PackageReference Include="CoreWCF.Http" Version="1.6.0" />
+		<PackageReference Include="CoreWCF.Primitives" Version="1.6.0" />
+		<PackageReference Include="CoreWCF.WebHttp" Version="1.6.0" />
+		<PackageReference Include="CoreWCF.NetTcp" Version="1.6.0" />
+		<PackageReference Include="Microsoft.AspNetCore" Version="2.3.0" />
+		<PackageReference Include="CoreWCF.ConfigurationManager" Version="1.6.0" />
+		<PackageReference Include="System.ServiceModel.Web" Version="1.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.3.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.1" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
@@ -51,25 +45,7 @@
 
 	<ItemGroup>
 	  <None Update="appsettings.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
-	<PropertyGroup>
-		<TargetFramework Condition="'$(TargetFramework)' == ''">net48</TargetFramework>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<Configurations>Debug;Release;Debug6;Release6</Configurations>
-		<Platforms>AnyCPU</Platforms>
-		<OutputType>Exe</OutputType>
-    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)' == 'Debug6'">
-		<ConfigurationGroup>Debug</ConfigurationGroup>
-		<TargetFramework>net6.0</TargetFramework>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)' == 'Release6'">
-		<ConfigurationGroup>Release</ConfigurationGroup>
-		<TargetFramework>net6.0</TargetFramework>
-	</PropertyGroup>
 </Project>

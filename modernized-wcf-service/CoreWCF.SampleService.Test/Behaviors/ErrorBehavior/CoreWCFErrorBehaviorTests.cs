@@ -1,9 +1,7 @@
 ﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
 
-#if !NETFRAMEWORK
 using Moq;
-using System;
 using NUnit.Framework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -73,7 +71,7 @@ namespace WCF.SampleService.Test.Behaviors.ErrorBehavior
         {
             fileLogger.Setup(t => t.Log(It.IsAny<string>()));
 
-            Assert.Throws<FaultException>(() => Channel.Test(2, 0));
+            Assert.Throws<SSM.FaultException<SSM.ExceptionDetail>>(() => Channel.Test(2, 0));
 
             fileLogger.Verify(t => t.Log(It.IsAny<string>()), Times.Once);
         }
@@ -100,4 +98,3 @@ namespace WCF.SampleService.Test.Behaviors.ErrorBehavior
 
     }
 }
-#endif

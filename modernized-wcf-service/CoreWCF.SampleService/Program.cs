@@ -1,8 +1,6 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
 
-#if !NETFRAMEWORK
-
 using CoreWCF;
 using CoreWCF.Configuration;
 using CoreWCF.Description;
@@ -52,15 +50,3 @@ var serviceMetadataBehavior = app.Services.GetRequiredService<ServiceMetadataBeh
 serviceMetadataBehavior.HttpGetEnabled = true;
 
 app.Run();
-
-#else
-
-// Note: SDK style project requires a Main method, so keeping this class just to prevent compilation errors.
-public class Program
-{
-    public static void Main(string[] args)
-    {
-
-    }
-}
-#endif
