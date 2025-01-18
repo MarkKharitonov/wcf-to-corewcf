@@ -28,9 +28,9 @@ namespace CoreWCF.SampleService.Test.Behaviors.HeaderValidationBehavior
         [SetUp]
         public void Initialize()
         {
-            serviceUrl = "http://localhost:9000/TestService.svc";
+            serviceUrl = "http://localhost:40000/TestService.svc";
             fileLogger = new Mock<IFileLogger>();
-            hostingEnv = new TestServiceHostingEnvironment<TestService>(serviceUrl, new ErrorBehaviorNS.ErrorBehavior(typeof(GlobalErrorHandler), fileLogger.Object), true);
+            hostingEnv = new TestServiceHostingEnvironment<TestService>(serviceUrl, new ErrorBehavior(typeof(GlobalErrorHandler), fileLogger.Object), true);
         }
 
         [TearDown]
@@ -39,35 +39,17 @@ namespace CoreWCF.SampleService.Test.Behaviors.HeaderValidationBehavior
             hostingEnv.Dispose();
         }
 
-        static ITestService Channel
-        {
-            get
-            {
-                return hostingEnv.GetChannel<ITestService>(serviceUrl);
-
-            }
-        }
+        static ITestService Channel => hostingEnv.GetChannel<ITestService>(serviceUrl);
 
         [Test]
         public void HeadersAreValidatedByHeaderValidationBehavior()
         {
-            // Arrange
             fileLogger.Setup(t => t.Log(It.IsAny<string>()));
-            Exception expectedExcetpion = null;
 
-            // Act
-            try
-            {
-                int result = Channel.Test(2, 1);
-            }
-            catch (Exception ex)
-            {
-                expectedExcetpion = ex;
-            }
+            var expectedException = Assert.Throws<FaultException>(() => Channel.Test(2, 1));
 
-            // Assert
-            Assert.IsNotNull(expectedExcetpion);
-            Assert.AreEqual("ClientId was not found the request.", expectedExcetpion.Message);
+            Assert.IsNotNull(expectedException);
+            Assert.AreEqual("ClientId was not found the request.", expectedException.Message);
             fileLogger.Verify(t => t.Log(It.IsAny<string>()), Times.Once);
         }
 

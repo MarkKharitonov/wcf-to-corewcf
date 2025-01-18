@@ -25,7 +25,7 @@ namespace WCF.SampleService.Test.Behaviors.ErrorBehavior
         static CoreWCFHostingEnvironment hostingEnv;
         static Mock<IFileLogger> fileLogger;
         static string serviceUrl;
-        static string baseUrl = "http://127.0.0.1:12345";
+        static string baseUrl = "http://127.0.0.1:40000";
 
         [SetUp]
         public void Initialize()
@@ -41,13 +41,7 @@ namespace WCF.SampleService.Test.Behaviors.ErrorBehavior
             hostingEnv.Dispose();
         }
 
-        static ITestService Channel
-        {
-            get
-            {
-                return hostingEnv.GetChannel<ITestService>(serviceUrl);
-            }
-        }
+        static ITestService Channel => hostingEnv.GetChannel<ITestService>(serviceUrl);
 
         class CoreWCFStartup
         {
@@ -70,43 +64,17 @@ namespace WCF.SampleService.Test.Behaviors.ErrorBehavior
         [Test]
         public void SuccessfulCall()
         {
-            // Arrange
-            Exception expectedExcetpion = null;
-
-            // Act
-            try
-            {
-                int result = Channel.Test(2, 1);
-            }
-            catch (Exception ex)
-            {
-                expectedExcetpion = ex;
-            }
-
-            // Assert
-            Assert.IsNull(expectedExcetpion);
+            int result = Channel.Test(2, 1);
+            Assert.AreEqual(2, result);
         }
 
         [Test]
         public void ExceptionIsHandledByErrorBehavior()
         {
-            // Arrange
             fileLogger.Setup(t => t.Log(It.IsAny<string>()));
-                    
-            Exception expectedExcetpion = null;
 
-            // Act
-            try
-            {
-                int result = Channel.Test(2, 0);
-            }
-            catch (Exception ex)
-            {
-                expectedExcetpion = ex;
-            }
+            Assert.Throws<FaultException>(() => Channel.Test(2, 0));
 
-            // Assert
-            Assert.IsNotNull(expectedExcetpion);
             fileLogger.Verify(t => t.Log(It.IsAny<string>()), Times.Once);
         }
         #endregion

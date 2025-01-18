@@ -16,35 +16,25 @@ namespace WCF.SampleService.Test
         ServiceHost serviceHost;
         public TestServiceHostingEnvironment(string serviceUrl, IServiceBehavior item, bool addEndPointBehavior = false)
         {
-            try
+            var uri = new Uri(serviceUrl);
+            serviceHost = new ServiceHost(typeof(T), uri);
+
+            serviceHost.Description.Behaviors.Add(item);
+
+            if (addEndPointBehavior)
             {
-                var uri = new Uri(serviceUrl);
-                serviceHost = new ServiceHost(typeof(T), uri);
+                serviceHost.AddServiceEndpoint(
+                    typeof(HeaderValidationBehaviorTests.ITestService),
+                    new BasicHttpBinding(),
+                    serviceUrl);
 
-                serviceHost.Description.Behaviors.Add(item);
-
-                if (addEndPointBehavior)
+                serviceHost.Description.Endpoints.ToList().ForEach(endpoint =>
                 {
-                    serviceHost.AddServiceEndpoint(
-                        typeof(HeaderValidationBehaviorTests.ITestService),
-                        new BasicHttpBinding(),
-                        serviceUrl);
+                    endpoint.EndpointBehaviors.Add(new HeaderValidationBehavior());
+                });
+            }
 
-                    serviceHost.Description.Endpoints.ToList().ForEach(endpoint =>
-                    {
-                        endpoint.EndpointBehaviors.Add(new HeaderValidationBehavior());
-                    });
-                }
-
-                serviceHost.Open();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-            }
+            serviceHost.Open();
         }
 
         public void Dispose()

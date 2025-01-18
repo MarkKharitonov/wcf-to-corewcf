@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "CoreWCF.SampleService": {
+      "commandName": "Project"
+    }
+  }
+}
