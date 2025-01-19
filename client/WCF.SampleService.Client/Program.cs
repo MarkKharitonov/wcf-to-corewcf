@@ -43,8 +43,6 @@ namespace WCF.SampleService.Client
             bool isAuthenticated = authServiceClient.Authenticate(loginInfo);
 
             #endregion
-
-            Console.ReadLine();
         }
     }
 }
