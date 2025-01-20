@@ -4,6 +4,7 @@
 using CoreWCF;
 using CoreWCF.Configuration;
 using CoreWCF.Description;
+using CoreWCF.SampleService.BL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
@@ -21,6 +22,9 @@ builder.Services.AddSingleton<IServiceBehavior, UseRequestHeadersForMetadataAddr
 
 // Register dependencies
 builder.Services.AddSingleton<IFileLogger, FileLogger>(serviceProvider => new FileLogger(builder.Configuration["appSettings:logFilePath"]));
+builder.Services.AddSingleton<ISomeBL, SomeBL>();
+builder.Services.AddSingleton<CalculatorService>();
+builder.Services.AddSingleton<AuthService>();
 
 var app = builder.Build();
 
@@ -43,6 +47,17 @@ app.UseServiceModel(builder =>
         {
             endpoint.EndpointBehaviors.Add(new HeaderValidationBehavior());
         });
+
+        var debug = serviceHost.Description.Behaviors.Find<ServiceDebugBehavior>();
+
+        if (debug == null)
+        {
+            serviceHost.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+        }
+        else
+        {
+            debug.IncludeExceptionDetailInFaults = true;
+        }
     });
 });
 

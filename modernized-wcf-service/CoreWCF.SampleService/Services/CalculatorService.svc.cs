@@ -1,11 +1,19 @@
 using System;
 using WCF.SampleService.Contracts;
 using CoreWCF;
+using CoreWCF.SampleService.BL;
 
 namespace WCF.SampleService.Services
 {
     public class CalculatorService : ICalculatorService
     {
+        private readonly ISomeBL m_someBL;
+
+        public CalculatorService(ISomeBL someBL) 
+        {
+            m_someBL = someBL;
+        }
+
         public int Add(int n1, int n2)
         {
             return n1 + n2;
@@ -29,7 +37,7 @@ namespace WCF.SampleService.Services
             }
             catch (DivideByZeroException)
             {
-                throw new FaultException("Invalid Argument: The second argument must not be zero.");
+                throw new FaultException(m_someBL.DivideByZeroErrorMessage);
             }
         }
 
